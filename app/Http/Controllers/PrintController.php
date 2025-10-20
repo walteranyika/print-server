@@ -43,7 +43,7 @@ class PrintController extends Controller
         $till = $request->till ?? '';
         $customer = $request->customer ?? 'Walk-In Customer';
         $this->printSalesReceipt($details, $user, $order_date, $barcode, $total, $headerDetails, $discount, $till,  $customer);
-
+        return response()->noContent();
     }
 
     private function printSalesReceipt($details, $user, $order_date, $barcode, $total, $headerDetails, $discount = 0, $till = '',  $customer = 'Walk-In Customer')
