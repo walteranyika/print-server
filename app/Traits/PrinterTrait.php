@@ -24,7 +24,7 @@ trait PrinterTrait
     {
         if (!empty($till)) {
             $printer->setEmphasis(true);
-            $printer->text("M-PESA TILL. " . $till);
+            $printer->text($till);
             $printer->feed();
             $printer->setEmphasis(false);
         }
@@ -43,12 +43,8 @@ trait PrinterTrait
                     $device_url = "php://stdout";
                 }
                 $connector = new FilePrintConnector($device_url);
-                //$connector = new FilePrintConnector("/dev/usb/lp0");
-                //$connector = new FilePrintConnector("php://stdout");
-                //$connector = new NetworkPrintConnector("10.x.x.x", 9100);
-                //$connector = new FilePrintConnector("data.txt");
             } else if ($os == "windows nt") {
-                $connector = new WindowsPrintConnector("pos_print");
+                $connector = new WindowsPrintConnector("smb://DESKTOP-3V4JSK2/pos_print");//Shared Printer
             } else {
                 $connector = new FilePrintConnector("data.txt");
             }

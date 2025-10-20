@@ -18,7 +18,6 @@ class PrintController extends Controller
             'details.*.product' => 'required|string|max:255',
             'details.*.price' => 'required|numeric|min:0',
             'details.*.quantity' => 'required|numeric|min:1',
-
             'user' => 'required|string|max:100',
             'barcode' => 'required|string|max:50',
             'total' => 'required|numeric|min:0',
@@ -26,10 +25,7 @@ class PrintController extends Controller
             'headerDetails' => 'required|array',
             'headerDetails.companyName' => 'required|string|max:255',
             'headerDetails.companyAddress' => 'required|string|max:255',
-            'headerDetails.companyPhone' => [
-                'required',
-                'regex:/^(?:\+?\d{1,3})?[ -]?\d{6,15}$/'
-            ],
+            'headerDetails.companyPhone' => 'required',
             'headerDetails.till' => 'required|string|max:50',
         ]);
 
