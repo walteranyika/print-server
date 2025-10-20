@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Custom\PrintableItem;
 use App\Traits\PrinterTrait;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Mike42\Escpos\Printer;
 
@@ -63,8 +62,6 @@ class PrintController extends Controller
         $printer->feed();
 
         $printer->setJustification(Printer::JUSTIFY_LEFT);
-
-        $printer->setEmphasis(false);
 
         $heading = str_pad("Qty", 5, ' ') . str_pad("Item", 25, ' ') . str_pad("Price", 9, ' ', STR_PAD_LEFT) . str_pad("Total", 9, ' ', STR_PAD_LEFT);
         $printer->setEmphasis(false);
