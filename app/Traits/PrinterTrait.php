@@ -11,13 +11,17 @@ trait PrinterTrait
 {
     public function printHeaderDetails($printer, $headerDetails = []): void
     {
+        $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+        $printer -> setFont(Printer::FONT_B);
+        $printer -> setTextSize(3, 3);
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->setEmphasis(true);
         $printer->text($headerDetails['companyName'] . "\n");
         $printer->selectPrintMode();
         $printer->setEmphasis(false);
+        $printer->feed(1);
         $printer->text($headerDetails['companyAddress'] . "\n");
-        $printer->text($headerDetails['companyPhone'] . "\n");
+        $printer->text("FOR ORDERS CALL US ON ".$headerDetails['companyPhone'] . "\n");
     }
 
     public function printFooterInfo($printer, $till): void

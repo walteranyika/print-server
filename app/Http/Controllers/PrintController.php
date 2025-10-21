@@ -57,6 +57,13 @@ class PrintController extends Controller
         $printer->text("For $customer\n");
         $printer->feed();
 
+        $printer->text("EQUITY PAYBILL 247247 ACCOUNT 0791721764\n");
+        $printer->feed();
+        $printer->text("OR\n");
+        $printer->feed();
+        $printer->text("CO-OP PAYBILL 400200 ACCOUNT 61380\n");
+        $printer->feed();
+
         $printer->setJustification(Printer::JUSTIFY_LEFT);
 
         $heading = str_pad("Qty", 5, ' ') . str_pad("Item", 25, ' ') . str_pad("Price", 9, ' ', STR_PAD_LEFT) . str_pad("Total", 9, ' ', STR_PAD_LEFT);
@@ -88,13 +95,19 @@ class PrintController extends Controller
         $printer->selectPrintMode();
 
 
+
         $printer->feed();
         $printer->setJustification(Printer::JUSTIFY_CENTER);
 
+        $printer->text("FRESH AND FINE");
 
         $printer->feed(2);
 
         $this->printFooterInfo($printer, $till);
+        $barcode = str_replace('/', '', $barcode);
+        $printer->setEmphasis(true);
+        $printer->text("ORDER NUMBER $barcode\n");
+        $printer->selectPrintMode();
 
         $printer->feed();
         $printer->text("Goods once sold are not re-accepted\n");
@@ -102,11 +115,17 @@ class PrintController extends Controller
         $printer->feed();
 
         $printer->text("Thank You and Come Again!\n");
+        $printer->feed();
+
         $printer->setBarcodeHeight(80);
         $printer->setBarcodeTextPosition(Printer::BARCODE_TEXT_BELOW);
-        $barcode = str_replace('/', '', $barcode);
-        $barcode = str_replace('_', '', $barcode);
-        $printer->barcode($barcode);
+//        $printer->barcode($barcode);
+        $content ="https://forms.gle/jP4tiik4upuiD7V26";
+        $printer->text("For any feedback, scan this code!\n");
+        $ec = Printer::QR_ECLEVEL_L; // Error correction level (L, M, Q, H)
+        $size = 8; // Size of the QR code modules (dots)
+        $model = Printer::QR_MODEL_2; // QR code model (1 or 2)
+        $printer->qrCode($content, $ec, $size, $model);
         $printer->feed();
 
         $names = "Served By " . $user . "\n";
