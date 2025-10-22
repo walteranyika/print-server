@@ -111,7 +111,7 @@ class PrintController extends Controller
         $printer->setBarcodeHeight(80);
         $printer->setBarcodeTextPosition(Printer::BARCODE_TEXT_BELOW);
 //        $printer->barcode($barcode);
-        $content ="https://forms.gle/jP4tiik4upuiD7V26";
+        $content ="https://forms.gle/ghb7cewVxCRH7uUeA";
         $printer->text("For any feedback, scan this code!\n");
         $ec = Printer::QR_ECLEVEL_L; // Error correction level (L, M, Q, H)
         $size = 8; // Size of the QR code modules (dots)
