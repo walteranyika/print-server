@@ -21,7 +21,6 @@ class PrintController extends Controller
             'user' => 'required|string|max:100',
             'barcode' => 'required|string|max:50',
             'total' => 'required|numeric|min:0',
-            'discount' => 'required|numeric|min:0',
             'headerDetails' => 'required|array',
             'headerDetails.companyName' => 'required|string|max:255',
             'headerDetails.companyAddress' => 'required|string|max:255',
