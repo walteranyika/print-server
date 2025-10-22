@@ -51,7 +51,6 @@ class PrintController extends Controller
         $printer->feed();
         $printer->setEmphasis(false);
         $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $printer->text($order_date."\n");
         //title of the receipt
         $printer->text("Sales Receipt No. $barcode\n");
         $printer->text("For $customer\n");
@@ -108,13 +107,6 @@ class PrintController extends Controller
         $printer->setEmphasis(true);
         $printer->text("ORDER NUMBER $barcode\n");
         $printer->selectPrintMode();
-
-        $printer->feed();
-        $printer->text("Goods once sold are not re-accepted\n");
-
-        $printer->feed();
-
-        $printer->text("Thank You and Come Again!\n");
         $printer->feed();
 
         $printer->setBarcodeHeight(80);
@@ -130,6 +122,13 @@ class PrintController extends Controller
 
         $names = "Served By " . $user . "\n";
         $printer->text($names);
+        $printer->text($order_date."\n");
+        $printer->feed();
+        $printer->text("Goods once sold are not re-accepted\n");
+
+        $printer->feed();
+
+        $printer->text("Thank You and Come Again!\n");
         $printer->feed();
         $contact = "System By Chui POS 0719247956\n";
         $printer->text($contact);
