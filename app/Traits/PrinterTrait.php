@@ -11,17 +11,20 @@ trait PrinterTrait
 {
     public function printHeaderDetails($printer, $headerDetails = []): void
     {
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+
         $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
         $printer -> setFont(Printer::FONT_B);
-        $printer -> setTextSize(3, 3);
-        $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $printer->setEmphasis(true);
-        $printer->text($headerDetails['companyName'] . "\n");
+        $printer -> setTextSize(2, 2);
+        // $printer->setEmphasis(true);
+        $printer->text($headerDetails['companyName']."\n");
         $printer->selectPrintMode();
-        $printer->setEmphasis(false);
-        $printer->feed(1);
-        $printer->text($headerDetails['companyAddress'] . "\n");
-        $printer->text("FOR ORDERS CALL US ON ".$headerDetails['companyPhone'] . "\n");
+        $printer->feed();
+        $printer->setEmphasis(true);
+        $printer->text($headerDetails['companyAddress']."\n");
+        $printer->text("www.olukuluguesthouse.co.ke\n");
+        $printer->text("Phone : ".$headerDetails['companyPhone']."\n");
+        $printer->text("KRA PIN : P052256969U\n");
     }
 
     public function printFooterInfo($printer, $till): void
@@ -36,26 +39,8 @@ trait PrinterTrait
 
     private function getPrintConnector(): WindowsPrintConnector|FilePrintConnector|null
     {
-        $os = strtolower(php_uname('s'));
-        try {
-            if ($os == 'linux') {
-                $subject = shell_exec("ls /dev/usb/ | grep lp");
-                preg_match_all('/(lp\d)/', $subject, $match);
-                if (!empty($subject) && !empty($match)) {
-                    $device_url = "/dev/usb/" . $match[0][0];
-                } else {
-                    $device_url = "php://stdout";
-                }
-                $connector = new FilePrintConnector($device_url);
-            } else if ($os == "windows nt") {
-                $connector = new WindowsPrintConnector("smb://DESKTOP-3V4JSK2/pos_print");//Shared Printer
-            } else {
-                $connector = new FilePrintConnector("data.txt");
-            }
-        } catch (\Exception $e) {
-            Log::error("Could not get the printer connector. " . $e->getMessage());
-            $connector = new FilePrintConnector("data.txt");
-        }
+        //$connector = new WindowsPrintConnector("smb://DESKTOP-3V4JSK2/pos_print");//Shared Printer
+        $connector = new FilePrintConnector("data.txt");
         return $connector;
     }
 

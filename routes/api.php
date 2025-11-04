@@ -9,3 +9,4 @@ Route::get('/health', function (Request $request) {
 });
 
 Route::post('print-receipt', [PrintController::class, 'printReceipt'])->name('print-receipt');
+Route::post('print', [PrintController::class, 'printOrderReceipt'])->name('print-order-receipt');

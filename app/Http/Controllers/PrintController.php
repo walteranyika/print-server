@@ -138,4 +138,94 @@ class PrintController extends Controller
         $printer->close();
     }
 
+    public function printOrderReceipt(Request $request){
+        $request->validate([
+            'details' => 'required|array|min:1',
+            'details.*.product' => 'required|string|max:255',
+            'details.*.price' => 'required|numeric|min:0',
+            'details.*.quantity' => 'required|numeric|min:1',
+            'extras.client_name' => 'required|string|max:30',
+            'extras.date_printed' => 'required|string|max:20',
+            'extras.time_printed' => 'required|string|max:20',
+            'extras.discount' => 'required',
+            'extras.receipt_number' => 'required|string|max:50',
+            'extras.user_name' => 'required|string|max:30',
+            'headerDetails' => 'required',
+        ]);
+
+        $connector = $this->getPrintConnector();
+
+        $extras = $request->extras;
+        $details = $request->details;
+        $headerDetails = $request->headerDetails;
+
+
+        $printer = new Printer($connector);
+        $this->printHeaderDetails($printer, $headerDetails);
+        $printer->feed();
+
+        $printer->text("Order Receipt - For Internal Use Only\n");
+        $printer->feed(2);
+
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->feed();
+
+        $printer->setEmphasis(false);
+        $printer->text("Date:" . $extras['date_printed'] . "\n");
+        $printer->text("Time:" . $extras['time_printed'] . "\n");
+
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+
+        $printer->setEmphasis(true);
+
+        //title of the receipt
+        $printer->text("Order For". $extras['client_name']."\n");
+        $printer->text("Order Number". $extras['receipt_number']."\n");
+
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->setEmphasis(false);
+
+        $heading = str_pad("Qty", 5, ' ') . str_pad("Item", 25, ' ') . str_pad("Price", 9, ' ', STR_PAD_LEFT) . str_pad("Total", 9, ' ', STR_PAD_LEFT);
+        $printer->setEmphasis(false);
+        $printer->text("$heading\n");
+        $printer->text(str_repeat(".", 48) . "\n");
+        //Print product details
+        $total = 0;
+        foreach ($details as $key => $value) {
+            $product = new PrintableItem($value['name'], $value['Net_price'], $value['quantity']);
+            $printer->text($product->getPrintatbleRow());
+            $total += $product->getTotal();
+        }
+        $printer->text(str_repeat(".", 48) . "\n");
+        $printer->setTextSize(1, 1);
+
+        $printer->selectPrintMode();
+
+        $total = str_pad("GRAND TOTAL", 36, ' ') . str_pad(number_format($total), 12, ' ', STR_PAD_LEFT);
+
+        // $printer->text($subtotal);
+        //$printer->text($discount);
+
+        $printer->setEmphasis(true);
+        $printer->text($total);
+        $printer->selectPrintMode();
+        $printer->feed();
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+
+        $printer->feed(2);
+        $printer->feed();
+        $printer->feed();
+
+
+        $names = "Ordered By " . $extras['user_name'] . "\n";
+        $printer->text($names);
+        $printer->feed();
+        $printer->feed();
+        $printer->cut();
+
+        $printer->close();
+        return response()->json(['success' => true]);
+    }
+
 }
