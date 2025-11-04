@@ -141,16 +141,16 @@ class PrintController extends Controller
     public function printOrderReceipt(Request $request){
         $request->validate([
             'details' => 'required|array|min:1',
-            'details.*.product' => 'required|string|max:255',
-            'details.*.price' => 'required|numeric|min:0',
+            'details.*.name' => 'required|string|max:35',
+            'details.*.Net_price' => 'required|numeric|min:0',
             'details.*.quantity' => 'required|numeric|min:1',
             'extras.client_name' => 'required|string|max:30',
             'extras.date_printed' => 'required|string|max:20',
             'extras.time_printed' => 'required|string|max:20',
-            'extras.discount' => 'required',
             'extras.receipt_number' => 'required|string|max:50',
             'extras.user_name' => 'required|string|max:30',
             'headerDetails' => 'required',
+            'department'=>'required|string|max:30',
         ]);
 
         $connector = $this->getPrintConnector();
@@ -158,13 +158,14 @@ class PrintController extends Controller
         $extras = $request->extras;
         $details = $request->details;
         $headerDetails = $request->headerDetails;
+        $department = $request->department;
 
 
         $printer = new Printer($connector);
         $this->printHeaderDetails($printer, $headerDetails);
         $printer->feed();
 
-        $printer->text("Order Receipt - For Internal Use Only\n");
+        $printer->text("Order Receipt $department - For Internal Use Only\n");
         $printer->feed(2);
 
         $printer->setJustification(Printer::JUSTIFY_LEFT);
