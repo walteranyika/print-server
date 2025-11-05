@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Facades\Log;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
@@ -40,6 +39,7 @@ trait PrinterTrait
     private function getPrintConnector(): WindowsPrintConnector|FilePrintConnector|null
     {
         //$connector = new WindowsPrintConnector("smb://DESKTOP-3V4JSK2/pos_print");//Shared Printer
+        //$connector = new FilePrintConnector("php://stdout");
         $connector = new FilePrintConnector("data.txt");
         return $connector;
     }

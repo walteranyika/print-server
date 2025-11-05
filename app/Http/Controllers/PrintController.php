@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Custom\PrintableItem;
 use App\Traits\PrinterTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Mike42\Escpos\Printer;
 
 class PrintController extends Controller
