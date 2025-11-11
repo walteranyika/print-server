@@ -155,6 +155,9 @@ class PrintController extends Controller
             'department'=>'required|string|max:30',
         ]);
 
+        Log::info("Validated");
+
+
         $connector = $this->getPrintConnector();
 
         $extras = $request->extras;
@@ -162,6 +165,8 @@ class PrintController extends Controller
         $headerDetails = $request->headerDetails;
         $department = $request->department;
 
+
+        Log::info("Printer started");
 
         $printer = new Printer($connector);
         $this->printHeaderDetails($printer, $headerDetails);
