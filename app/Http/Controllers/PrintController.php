@@ -140,7 +140,8 @@ class PrintController extends Controller
     }
 
     public function printOrderReceipt(Request $request){
-        /*$request->validate([
+        Log::info("Payload", $request->all());
+        $request->validate([
             'details' => 'required|array|min:1',
             'details.*.name' => 'required|string|max:35',
             'details.*.Net_price' => 'required|numeric|min:0',
@@ -152,7 +153,7 @@ class PrintController extends Controller
             'extras.user_name' => 'required|string|max:30',
             'headerDetails' => 'required',
             'department'=>'required|string|max:30',
-        ]);*/
+        ]);
 
         $connector = $this->getPrintConnector();
 
