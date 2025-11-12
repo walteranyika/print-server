@@ -53,7 +53,8 @@ trait PrinterTrait
                 //$connector = new NetworkPrintConnector("10.x.x.x", 9100);
                 //$connector = new FilePrintConnector("data.txt");
             }else if($os=="windows nt"){
-                $connector = new WindowsPrintConnector("smb://DESKTOP-3V4JSK2/pos_print");
+                $printerName = config('app.printer_name');
+                $connector = new WindowsPrintConnector("smb://$printerName");
             }else{
                 $connector = new FilePrintConnector("data.txt");
             }
