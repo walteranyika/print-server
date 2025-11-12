@@ -312,10 +312,10 @@ class PrintController extends Controller
         $printer->setJustification(Printer::JUSTIFY_CENTER);
 
 
+        $printer->feed();
 
         $this->printFooterInfo($printer);
 
-        $printer->feed();
         $printer->text("Goods once sold are not re-accepted\n");
 
         $printer->text("Thank You and Come Again!\n");
