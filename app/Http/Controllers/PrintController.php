@@ -312,7 +312,6 @@ class PrintController extends Controller
         $printer->setJustification(Printer::JUSTIFY_CENTER);
 
 
-        $printer->feed();
 
         $this->printFooterInfo($printer);
 
