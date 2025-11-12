@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Models\Setting;
 use Illuminate\Support\Facades\Log;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Custom\PrintableItem;
 use App\Traits\PrinterTrait;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Mike42\Escpos\Printer;
