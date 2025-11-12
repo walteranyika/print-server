@@ -309,18 +309,15 @@ class PrintController extends Controller
         $printer->selectPrintMode();
 
 
-        $printer->feed();
         $printer->setJustification(Printer::JUSTIFY_CENTER);
 
 
-        $printer->feed(2);
+        $printer->feed();
 
         $this->printFooterInfo($printer);
 
         $printer->feed();
         $printer->text("Goods once sold are not re-accepted\n");
-
-        $printer->feed();
 
         $printer->text("Thank You and Come Again!\n");
         $printer->setBarcodeHeight(80);
@@ -329,8 +326,6 @@ class PrintController extends Controller
         $barcode = str_replace('_', '', $barcode);
         $printer->barcode($barcode);
         $printer->feed();
-        $printer->feed();
-
         $printer->text("Printed On ".$date." ". $time ."\n");
 
         $names = "Served By " . $username . "\n";

@@ -26,12 +26,12 @@ trait PrinterTrait
         $printer->text("KRA PIN : P052256969U\n");
     }
 
-    public function printFooterInfo($printer, $till=""): void
+    public function printFooterInfo($printer, $till="4455852"): void
     {
         $printer->setEmphasis(true);
         $printer->text("MPESA TILL. ".$till." : MMH GUEST HOUSE\n");
         $printer->feed();
-        $printer->text("PAYBILL BUSINESS NO. 522533 ACCOUNT NO. 7594825\n");
+       // $printer->text("PAYBILL BUSINESS NO. 522533 ACCOUNT NO. 7594825\n");
         $printer->setEmphasis(false);
     }
 
