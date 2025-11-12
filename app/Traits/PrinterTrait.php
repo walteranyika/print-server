@@ -19,7 +19,6 @@ trait PrinterTrait
         // $printer->setEmphasis(true);
         $printer->text($headerDetails['companyName']."\n");
         $printer->selectPrintMode();
-        $printer->feed();
         $printer->setEmphasis(true);
         $printer->text($headerDetails['companyAddress']."\n");
         $printer->text("www.olukuluguesthouse.co.ke\n");

@@ -173,10 +173,8 @@ class PrintController extends Controller
         $printer->feed();
 
         $printer->text("Order Receipt $department - For Internal Use Only\n");
-        $printer->feed(2);
 
-        $printer->setJustification(Printer::JUSTIFY_LEFT);
-        $printer->feed();
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
 
         $printer->setEmphasis(false);
         $printer->text("Date:" . $extras['date_printed'] . "\n");
@@ -218,17 +216,11 @@ class PrintController extends Controller
         $printer->setEmphasis(true);
         $printer->text($total);
         $printer->selectPrintMode();
-        $printer->feed();
         $printer->setJustification(Printer::JUSTIFY_CENTER);
 
         $printer->feed(2);
-        $printer->feed();
-        $printer->feed();
-
-
         $names = "Ordered By " . $extras['user_name'] . "\n";
         $printer->text($names);
-        $printer->feed();
         $printer->feed();
         $printer->cut();
 
