@@ -15,22 +15,26 @@ trait PrinterTrait
 
         $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
         $printer -> setFont(Printer::FONT_B);
-        $printer -> setTextSize(2, 2);
-        // $printer->setEmphasis(true);
+        $printer -> setTextSize(3, 3);
+        $printer->setEmphasis(true);
         $printer->text($headerDetails['companyName']."\n");
         $printer->selectPrintMode();
         $printer->setEmphasis(true);
-        $printer->text($headerDetails['companyAddress']."\n");
-        $printer->text("www.olukuluguesthouse.co.ke\n");
+        $printer->feed();
+        $printer -> setTextSize(2, 2);
+        $printer->text("CHEMWA"."\n");
+        $printer->selectPrintMode();
+        $printer->feed();
+        $printer->text("info@fourthirtyresort.co.org\n");
         $printer->text("Phone : ".$headerDetails['companyPhone']."\n");
-        $printer->text("KRA PIN : P052256969U\n");
+        $printer->text("KRA PIN : P052004691A\n");
     }
 
     public function printFooterInfo($printer, $till="4455852"): void
     {
         $printer->setEmphasis(true);
         $printer->feed();
-        $printer->text("MPESA TILL. ".$till." : MMH GUEST HOUSE\n");
+        $printer->text("BUY GOODS 989231 - 430 Resort\n");
        // $printer->text("PAYBILL BUSINESS NO. 522533 ACCOUNT NO. 7594825\n");
         $printer->setEmphasis(false);
     }

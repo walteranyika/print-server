@@ -56,11 +56,8 @@ class PrintController extends Controller
         $printer->text("For $customer\n");
         $printer->feed();
 
-        $printer->text("EQUITY PAYBILL 247247 ACCOUNT 0791721764\n");
+        $printer->text("BUY GOODS 989231 - 430 Resort\n");
         $printer->feed();
-        $printer->text("OR\n");
-        $printer->feed();
-        $printer->text("CO-OP PAYBILL 400200 ACCOUNT 61380\n");
         $printer->feed();
 
         $printer->setJustification(Printer::JUSTIFY_LEFT);
@@ -98,7 +95,7 @@ class PrintController extends Controller
         $printer->feed();
         $printer->setJustification(Printer::JUSTIFY_CENTER);
 
-        $printer->text("FRESH AND FINE");
+        $printer->text("Home away from home");
 
         $printer->feed(2);
 
@@ -107,17 +104,17 @@ class PrintController extends Controller
         $printer->setEmphasis(true);
         $printer->text("ORDER NUMBER $barcode\n");
         $printer->selectPrintMode();
-        $printer->feed();
+        //$printer->feed();
 
-        $printer->setBarcodeHeight(80);
-        $printer->setBarcodeTextPosition(Printer::BARCODE_TEXT_BELOW);
+       // $printer->setBarcodeHeight(80);
+       // $printer->setBarcodeTextPosition(Printer::BARCODE_TEXT_BELOW);
 //        $printer->barcode($barcode);
         $content ="https://forms.gle/ghb7cewVxCRH7uUeA";
-        $printer->text("For any feedback, scan this code!\n");
-        $ec = Printer::QR_ECLEVEL_L; // Error correction level (L, M, Q, H)
+        //$printer->text("For any feedback, scan this code!\n");
+        /*$ec = Printer::QR_ECLEVEL_L; // Error correction level (L, M, Q, H)
         $size = 8; // Size of the QR code modules (dots)
         $model = Printer::QR_MODEL_2; // QR code model (1 or 2)
-        $printer->qrCode($content, $ec, $size, $model);
+        $printer->qrCode($content, $ec, $size, $model);*/
         $printer->feed();
 
         $names = "Served By " . $user . "\n";
