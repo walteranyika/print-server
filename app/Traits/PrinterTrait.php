@@ -26,7 +26,9 @@ trait PrinterTrait
         $printer->selectPrintMode();
         $printer->feed();
         $printer->text("info@fourthirtyresort.co.org\n");
-        $printer->text("Phone : ".$headerDetails['companyPhone']."\n");
+        if (!empty($headerDetails['companyPhone'])){
+            $printer->text("Phone : ".$headerDetails['companyPhone']."\n");
+        }
         $printer->text("KRA PIN : P052004691A\n");
     }
 
@@ -40,6 +42,7 @@ trait PrinterTrait
     }
 
     private function getPrintConnector(){
+        //return  new FilePrintConnector("data.txt");
         $connector = null;
         $os= strtolower(php_uname('s'));
         try{

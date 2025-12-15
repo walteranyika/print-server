@@ -136,8 +136,89 @@ class PrintController extends Controller
         $printer->close();
     }
 
-    public function printOrderReceipt(Request $request){
+    public function orderReceipt(Request $request)
+    {
         Log::info("Payload", $request->all());
+        $request->validate([
+            'details' => 'required|array|min:1',
+            'user' => 'required|string',
+            'barcode' => 'required|string',
+            'date' => 'required|string',
+            'time' => 'required|string',
+        ]);
+
+        $connector = $this->getPrintConnector();
+
+        $barcode = $request->barcode;
+        $date = $request->date;
+        $time = $request->time;
+        $username = $request->user;
+        $details = $request->details;
+
+        $printer = new Printer($connector);
+        $headerDetails = [
+            "companyName"=>"430 Resort",
+            "companyPhone"=>"",
+        ];
+        $this->printHeaderDetails($printer, $headerDetails);
+        $printer->feed();
+
+        $printer->text("Kitchen Order Receipt - For Internal Use Only\n");
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+
+        $printer->setEmphasis(false);
+        $printer->text("Date:" . $date . "\n");
+        $printer->text("Time:" . $time . "\n");
+
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+
+        $printer->setEmphasis(true);
+
+        //title of the receipt
+        //$printer->text("Order For ". $extras['client_name']."\n");
+        $printer->text("Order Number ". $barcode."\n");
+
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->setEmphasis(false);
+
+        $heading = str_pad("Qty", 5, ' ') . str_pad("Item", 25, ' ') . str_pad("Price", 9, ' ', STR_PAD_LEFT) . str_pad("Total", 9, ' ', STR_PAD_LEFT);
+        $printer->setEmphasis(false);
+        $printer->text("$heading\n");
+        $printer->text(str_repeat(".", 48) . "\n");
+        //Print product details
+        $total = 0;
+        foreach ($details as $key => $value) {
+            $product = new PrintableItem($value['name'], $value['Net_price'], $value['quantity']);
+            $printer->text($product->getPrintatbleRow());
+            $total += $product->getTotal();
+        }
+        $printer->text(str_repeat(".", 48) . "\n");
+        $printer->setTextSize(1, 1);
+
+        $printer->selectPrintMode();
+
+        $total = str_pad("GRAND TOTAL", 36, ' ') . str_pad(number_format($total), 12, ' ', STR_PAD_LEFT);
+
+        // $printer->text($subtotal);
+        //$printer->text($discount);
+
+        $printer->setEmphasis(true);
+        $printer->text($total);
+        $printer->selectPrintMode();
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+
+        $printer->feed(2);
+        $names = "Ordered By " . $username . "\n";
+        $printer->text($names);
+        $printer->feed();
+        $printer->cut();
+
+        $printer->close();
+        return response()->json(['success' => true]);
+    }
+    public function printOrderReceipt(Request $request){
         $request->validate([
             'details' => 'required|array|min:1',
             'details.*.name' => 'required|string|max:35',
@@ -152,7 +233,6 @@ class PrintController extends Controller
             'department'=>'required|string|max:30',
         ]);
 
-        Log::info("Validated");
 
 
         $connector = $this->getPrintConnector();
