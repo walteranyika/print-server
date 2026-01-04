@@ -36,8 +36,8 @@ trait PrinterTrait
     {
         $printer->setEmphasis(true);
         $printer->feed();
-        $printer->text("BUY GOODS 989231 - 430 Resort\n");
-       // $printer->text("PAYBILL BUSINESS NO. 522533 ACCOUNT NO. 7594825\n");
+        $printer->text("TILL NO -  989231  - 430 Resort\n");
+        // $printer->text("PAYBILL BUSINESS NO. 522533 ACCOUNT NO. 7594825\n");
         $printer->setEmphasis(false);
     }
 

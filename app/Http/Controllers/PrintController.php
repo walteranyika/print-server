@@ -55,8 +55,9 @@ class PrintController extends Controller
         $printer->text("Sales Receipt No. $barcode\n");
         $printer->text("For $customer\n");
         $printer->feed();
-
-        $printer->text("BUY GOODS 989231 - 430 Resort\n");
+        $printer->setEmphasis(true);
+        $printer->text("TILL NO -  989231  - 430 Resort\n");
+        $printer->setEmphasis(false);
         $printer->feed();
         $printer->feed();
 
